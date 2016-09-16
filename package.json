@@ -1,0 +1,25 @@
+{
+  "name": "webpack-fix-default-import-plugin",
+  "version": "1.0.0",
+  "description": "Webpack plugin to fix default import for non ES6 modules",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sormy/webpack-fix-default-import-plugin.git"
+  },
+  "keywords": [
+    "webpack",
+    "plugin",
+    "typescript",
+    "default",
+    "module",
+    "export",
+    "import"
+  ],
+  "author": "Artem Butusov <art.sormy@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sormy/webpack-fix-default-import-plugin/issues"
+  },
+  "homepage": "https://github.com/sormy/webpack-fix-default-import-plugin#readme"
+}
