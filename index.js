@@ -1,29 +1,31 @@
 var FixDefaultImportPlugin = function() {};
 
-// technically Object.assign() could be used instead but it could be unavailable
-function cloneExports(source) {
-  if (source === null || source === undefined) {
-    return undefined;
-  }
-
-  var to = {};
-  for (var key in source) {
-    // Avoid bugs when hasOwnProperty is shadowed
-    if (Object.prototype.hasOwnProperty.call(source, key)) {
-      to[key] = source[key];
+// inject "default" with exception to "axios/defaults.js"
+// see: https://github.com/sormy/webpack-fix-default-import-plugin/issues/1
+var fixModuleExports = function (module) {
+  if (module.exports
+    && !module.exports.__esModule
+    && module.exports.default === undefined
+  ) {
+    if (module.exports.headers
+      && module.exports.headers.common
+      && module.exports.headers.common.Accept
+      && module.exports.adapter
+      && module.exports.transformRequest
+      && module.exports.transformResponse
+    ) {
+      return;
     }
+    module.exports.default = module.exports;
   }
-  return to;
-};
+}
 
 FixDefaultImportPlugin.prototype.apply = function(compiler) {
   compiler.plugin('compilation', function(compilation, params) {
     compilation.mainTemplate.plugin('require', function(source, chunk, hash) {
       var newSource = source
         .replace('return module.exports;', '') +
-          'if (module.exports && !module.exports.__esModule && module.exports.default === undefined)\n' +
-          '  module.exports.default = (' + cloneExports.toString() + ')(module.exports);\n' +
-          '\n' +
+          '(' + fixModuleExports.toString() + ')(module);\n' +
           'return module.exports;';
       return newSource;
     });
