@@ -21,8 +21,8 @@ var fixModuleExports = function (module) {
 }
 
 FixDefaultImportPlugin.prototype.apply = function(compiler) {
-  compiler.plugin('compilation', function(compilation, params) {
-    compilation.mainTemplate.plugin('require', function(source, chunk, hash) {
+  compiler.hooks.compilation.tap('FixDefaultImportPlugin', function(compilation) {
+    compilation.mainTemplate.hooks.require.tap('FixDefaultImportPlugin', function(source, chunk, hash) {
       var newSource = source
         .replace('return module.exports;', '') +
           '(' + fixModuleExports.toString() + ')(module);\n' +
