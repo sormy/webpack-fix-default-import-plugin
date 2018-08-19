@@ -1,5 +1,9 @@
 # Webpack Fix Default Import Plugin #
 
+## THIS PACKAGE IS DEPRECATED ##
+
+Please use `esModuleInterop` option that is available since TypeScript 2.7 to use default imports in the same way as in Babel.
+
 ## Why? ##
 
 With Babel transpiler you could write:
